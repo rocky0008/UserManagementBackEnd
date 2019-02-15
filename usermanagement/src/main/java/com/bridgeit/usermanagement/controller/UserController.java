@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.Response;
+import com.bridgeit.usermanagement.model.User;
+import com.bridgeit.usermanagement.service.IUserService;
 
 @RestController
 @CrossOrigin(origins = {})
@@ -19,10 +21,12 @@ public class UserController {
 	Response response;
 	@Autowired
 	UserDto userDto;
+	@Autowired
+	IUserService userService;
 
 	@RequestMapping("/")
 	public String welcome() {
-		System.out.println(userDto.getEmail() + " " + userDto.getPassword());
+		System.out.println(userService);
 		return "Welcome";
 	}
 
@@ -46,4 +50,10 @@ public class UserController {
 
 	}
 
+	
+	@PostMapping("/user")
+	public void addUser(@RequestBody User user)
+	{
+		userService.createUser(user);
+	}	
 }

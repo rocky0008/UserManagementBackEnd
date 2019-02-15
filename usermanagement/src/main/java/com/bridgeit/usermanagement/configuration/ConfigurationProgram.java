@@ -15,7 +15,11 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.bridgeit.usermanagement.dao.IUserDao;
+import com.bridgeit.usermanagement.dao.UserDaoImplementation;
 import com.bridgeit.usermanagement.dto.UserDto;
+import com.bridgeit.usermanagement.service.IUserService;
+import com.bridgeit.usermanagement.service.UserServiceImplementation;
 
 @Configuration
 @EnableWebMvc
@@ -88,6 +92,7 @@ public class ConfigurationProgram {
 	PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
 
 	       sessionFactoryBean.setHibernateProperties(hibProperties());
+	       System.out.println(sessionFactoryBean);
 
 	       return sessionFactoryBean;
 
@@ -125,14 +130,27 @@ public class ConfigurationProgram {
 
 	   }
 	   @Bean
-	  public UserDto getUSerDto()
+	  public UserDto getUserDto()
 	  {
 		   UserDto dto=new UserDto();
 		   dto.setEmail("admin@gmail.com");
 		   dto.setPassword("admin");
 		   return dto;
 	  }
-	 
+	   
+	   @Bean
+	   public IUserService getIUserService()
+	   {
+		   System.out.println("Service");
+		   return new UserServiceImplementation();
+	   }
+	  @Bean
+	  public IUserDao getIUserDao()
+	  {
+		  System.out.println("UserDao");
+		  return new UserDaoImplementation();
+	  }
+	  
 	   
 //	   @Bean
 //	   public String getPassword()
