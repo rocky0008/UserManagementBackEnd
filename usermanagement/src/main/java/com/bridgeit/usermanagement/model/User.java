@@ -8,9 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="user")
+@Table(name="User")
 public class User implements Serializable
 {
 	@Id
@@ -31,6 +37,9 @@ public class User implements Serializable
 	private String gender;
 	
 	@Column(name="dateOfBirth")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(style ="dd-MM-yyyy")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date dateOfBirth;
 	
 	@Column(name="country")
@@ -55,6 +64,9 @@ public class User implements Serializable
 	private boolean status;
 	
 	@Column(name="createdStamp")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(style ="dd-MM-yyyy")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date createdStamp;
 	
 	@Column(name="lastLoginStamp")

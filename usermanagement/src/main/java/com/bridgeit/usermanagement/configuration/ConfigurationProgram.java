@@ -151,7 +151,11 @@ public class ConfigurationProgram {
 		  return new UserDaoImplementation();
 	  }
 	  
-	   
+	   @Bean
+	   public String getKey()
+	   {
+		   return "ramana";
+	   }
 //	   @Bean
 //	   public String getPassword()
 //	   {
