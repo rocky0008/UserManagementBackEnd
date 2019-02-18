@@ -60,6 +60,7 @@ public class UserController {
 	@PostMapping("/user")
 	public ResponseEntity<Response> addUser(@RequestBody User user)
 	{
+		System.out.println(user);
 		userService.createUser(user);
 		response=new Response();
 		response.setStatus("done");

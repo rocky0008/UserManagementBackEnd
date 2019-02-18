@@ -1,5 +1,8 @@
 package com.bridgeit.usermanagement.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +40,10 @@ public class UserServiceImplementation implements IUserService
 		SendEmail.sendEmail(user.getEmail(),user.getUserName(), user.getPassword());
 		String encryptedPassword=EncryptAndDecrypt.encrypt(user.getPassword(), key);
 		user.setPassword(encryptedPassword);
-		System.out.println(date);
+//		Date dob=user.getDateOfBirth();
+//		user.setDateOfBirth(dob);
 		userDao.addUser(user);
+	
 		
 		return true;
 	}
