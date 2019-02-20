@@ -70,8 +70,8 @@ public class User implements Serializable {
 
 	@Column(name = "createdStamp")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(style = "DD-MM-YYYY")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "DD-MM-YYYY")
+	@DateTimeFormat(style = "dd/mm/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy")
 	private Date createdStamp;
 
 	@Column(name = "lastLoginStamp")
