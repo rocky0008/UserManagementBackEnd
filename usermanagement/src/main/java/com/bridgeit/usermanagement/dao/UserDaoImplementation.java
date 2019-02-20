@@ -52,11 +52,12 @@ public class UserDaoImplementation implements IUserDao
 	}
 
 	@Override
-	public User getuser(int id) {
+	public User getuser(int id) 
+	{
 		if(factory!=null)
 		{
 			User user=(User) factory.getCurrentSession().get(User.class,id);
-			return user;
+			return user;	
 		}
 		return null;
 	}

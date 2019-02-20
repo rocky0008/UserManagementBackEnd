@@ -25,8 +25,8 @@ import com.bridgeit.usermanagement.service.IUserService;
 public class UserController {
 
 	Response response;
-	@Autowired
-	UserDto userDto;
+//	@Autowired
+//	UserDto userDto;
 	@Autowired
 	IUserService userService;
 
@@ -41,10 +41,9 @@ public class UserController {
 	public ResponseEntity<Response> loginUser(@RequestBody UserDto userInfo)
 
 	{
-		
-		System.out.println(userInfo);
+		boolean check=userService.validateUser(userInfo);
 		response = new Response();
-		if (userInfo.getEmail().equals(userDto.getEmail()) && userInfo.getPassword().equals(userDto.getPassword())) {
+		if (check) {
 			response.setStatus("done");
 			return new ResponseEntity<Response>(response, HttpStatus.OK);
 		}
