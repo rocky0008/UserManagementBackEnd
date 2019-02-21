@@ -8,18 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgeit.usermanagement.model.User;
 
-public class UserDaoImplementation implements IUserDao
-{
+public class UserDaoImplementation implements IUserDao {
 
 	@Autowired
 	SessionFactory factory;
-	
+
 	@Override
-	public boolean addUser(User user) 
-	{
+	public boolean addUser(User user) {
 		System.out.println(factory);
-		if(factory!=null)
-		{
+		if (factory != null) {
 			System.out.println(user);
 			factory.getCurrentSession().save(user);
 			System.out.println("added successfully");
@@ -29,11 +26,10 @@ public class UserDaoImplementation implements IUserDao
 	}
 
 	@Override
-	public List<User>  getAllUser() {
-		if(factory!=null)
-		{
-			Query query=factory.getCurrentSession().createQuery("from User");
-			List<User> userList=query.list();
+	public List<User> getAllUser() {
+		if (factory != null) {
+			Query query = factory.getCurrentSession().createQuery("from User");
+			List<User> userList = query.list();
 			return userList;
 		}
 		return null;
@@ -41,8 +37,7 @@ public class UserDaoImplementation implements IUserDao
 
 	@Override
 	public boolean update(User user) {
-		if(factory!=null)
-		{
+		if (factory != null) {
 			factory.getCurrentSession().update(user);
 			System.out.println("updated successfully");
 			System.out.println("Hhihih");
@@ -52,25 +47,38 @@ public class UserDaoImplementation implements IUserDao
 	}
 
 	@Override
-	public User getuser(int id) 
-	{
-		if(factory!=null)
-		{
-			User user=(User) factory.getCurrentSession().get(User.class,id);
-			return user;	
+	public User getuser(int id) {
+		if (factory != null) {
+			User user = (User) factory.getCurrentSession().get(User.class, id);
+			return user;
 		}
 		return null;
 	}
 
 	@Override
 	public boolean delete(User user) {
-		if(factory!=null)
-		{
+		if (factory != null) {
 			factory.getCurrentSession().delete(user);
 			System.out.println("deleted successfully");
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		if (factory != null) {
+			System.out.println(factory);
+			Query query = factory.getCurrentSession().createQuery("from User where email = :email");
+			query.setParameter("email", email);
+			System.out.println("hihih");
+			System.out.println((boolean) query.list().isEmpty());
+			if ((boolean) query.list().isEmpty())
+				return null;
+			else
+				return (User) query.list().get(0);
+		}
+		return null;
 	}
 
 }

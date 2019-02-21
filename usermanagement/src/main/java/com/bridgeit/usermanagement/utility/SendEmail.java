@@ -11,13 +11,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendEmail {
-	public static void sendEmail(String email,String userName,String password)
+	public static void sendEmail(String email,String userName,String password,String title)
 	{  
-	     send("fundoonote2019@gmail.com","iddqzqjjfyjiktzu",email,userName,password);  
+	     send("fundoonote2019@gmail.com","iddqzqjjfyjiktzu",email,userName,password,title);  
 
 	}
 	
-    public static void send(final String from,final String password,String email,String userName,String userPassword){  
+    public static void send(final String from,final String password,String email,String userName,String userPassword,String title){  
         //Get properties object    
         Properties props = new Properties();    
         props.put("mail.smtp.host", "smtp.gmail.com");    
@@ -37,7 +37,7 @@ public class SendEmail {
         try {    
          MimeMessage message = new MimeMessage(session);    
          message.addRecipient(Message.RecipientType.TO,new InternetAddress(email));    
-         message.setSubject("Account Created message"); 
+         message.setSubject(title); 
          
          String msg="Your UserName and Password for UserManagement website is: userName :"+userName+" and password :"+userPassword;
          message.setText(msg);    

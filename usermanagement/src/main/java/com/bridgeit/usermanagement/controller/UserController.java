@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.usermanagement.dto.UserDto;
@@ -50,11 +51,27 @@ public class UserController {
 
 		else {
 			response.setStatus("not valid");
-			return new ResponseEntity<Response>(response, HttpStatus.OK);
+			return new ResponseEntity<Response>(response, HttpStatus.NOT_FOUND);
 		}
 
 	}
+	@PostMapping("/forgotPassword")
+	public ResponseEntity<Response> forgotPassword(@RequestParam("email") String email)
+	{
+		boolean check=userService.sendUserNameByEmail(email);
+		response = new Response();
+		if(check)
+		{
+			System.out.println("hihihi");
+			response.setStatus("Your password has been send again to your Registered Email");
+			return new ResponseEntity<Response>(response, HttpStatus.OK);
 
+		}
+		response.setStatus("You have to create Account");
+		return new ResponseEntity<Response>(response, HttpStatus.NOT_FOUND);
+
+	}
+	
 	
 	@PostMapping("/user")
 	public ResponseEntity<Response> addUser(@RequestBody User user)

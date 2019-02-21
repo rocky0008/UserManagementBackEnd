@@ -16,4 +16,6 @@ public interface IUserDao {
 
 	boolean delete(User user);
 
+	User getUserByEmail(String email);
+
 }

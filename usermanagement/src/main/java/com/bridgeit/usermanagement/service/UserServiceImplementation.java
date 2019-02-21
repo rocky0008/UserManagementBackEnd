@@ -25,21 +25,21 @@ public class UserServiceImplementation implements IUserService {
 	@Override
 	public boolean createUser(User user) {
 		Date date = new Date();
-		try {
-			String token = UserToken.generateToken(user.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		User userInfo = userDao.getUserByEmail(user.getEmail());
+		if (userInfo==null) {
+			user.setCreatedStamp(date);
+			SendEmail.sendEmail(user.getEmail(), user.getUserName(), user.getPassword(),"Account Activation Message");
+			String encryptedPassword = EncryptAndDecrypt.encrypt(user.getPassword(), key);
+			user.setPassword(encryptedPassword);
+			userDao.addUser(user);
+			return true;
 		}
-		user.setCreatedStamp(date);
-		SendEmail.sendEmail(user.getEmail(), user.getUserName(), user.getPassword());
-		String encryptedPassword = EncryptAndDecrypt.encrypt(user.getPassword(), key);
-		user.setPassword(encryptedPassword);
+
 //		Date dob=user.getDateOfBirth();
 //		user.setDateOfBirth(dob);
-		userDao.addUser(user);
+		return false;
 
-		return true;
 	}
 
 	@Override
@@ -82,10 +82,28 @@ public class UserServiceImplementation implements IUserService {
 	}
 
 	@Override
-	public boolean validateUser(UserDto userInfo) 
-	{
-			
+	public boolean validateUser(UserDto userInfo) {
+		User user = userDao.getUserByEmail(userInfo.getEmail());
+		if (user != null && user.getEmail().equals(userInfo.getEmail()) && user.getPassword().equals(userInfo.getPassword()) && user.getRole().equals("admin")) 
+		{
+			return true;
+		}
 		return false;
-		
+
+	}
+
+	@Override
+	public boolean sendUserNameByEmail(String email) 
+	{
+		System.out.println(email);
+		User user=userDao.getUserByEmail(email);
+		System.out.println(user);
+		if(user!=null && user.getEmail().equals(email))
+		{
+			String decryptPassword=EncryptAndDecrypt.decrypt(user.getPassword(), key);
+			SendEmail.sendEmail(email, user.getUserName(), decryptPassword,"Recovery Password");
+			return true;
+		}
+		return false;
 	}
 }
