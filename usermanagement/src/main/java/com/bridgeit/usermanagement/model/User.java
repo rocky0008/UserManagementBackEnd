@@ -69,15 +69,18 @@ public class User implements Serializable {
 	private boolean status;
 
 	@Column(name = "createdStamp")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(style = "dd/mm/yyyy")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy")
+//	@Temporal(TemporalType.DATE)
+//	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
 	private Date createdStamp;
 
 	@Column(name = "lastLoginStamp")
 	private Date lastLoginStamp;
 
 	@Column(name = "lastUpdateStamp")
+//	@Temporal(TemporalType.DATE)
+//	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
 	private Date lastUpdateStamp;
 	
 	@Column(name="role")

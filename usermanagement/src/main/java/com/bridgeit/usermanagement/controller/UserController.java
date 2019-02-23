@@ -2,6 +2,8 @@ package com.bridgeit.usermanagement.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.Response;
+import com.bridgeit.usermanagement.model.ResponseToken;
 import com.bridgeit.usermanagement.model.User;
 import com.bridgeit.usermanagement.service.IUserService;
 
@@ -26,6 +29,7 @@ import com.bridgeit.usermanagement.service.IUserService;
 public class UserController {
 
 	Response response;
+	ResponseToken tokenResponse;
 //	@Autowired
 //	UserDto userDto;
 	@Autowired
@@ -39,19 +43,21 @@ public class UserController {
 
 //	@RequestMapping(value="/login" ,method=RequestMethod.POST)
 	@PostMapping("/login")
-	public ResponseEntity<Response> loginUser(@RequestBody UserDto userInfo)
+	public ResponseEntity<ResponseToken> loginUser(@RequestBody UserDto userInfo, HttpServletResponse header)
 
 	{
-		boolean check=userService.validateUser(userInfo);
-		response = new Response();
-		if (check) {
-			response.setStatus("done");
-			return new ResponseEntity<Response>(response, HttpStatus.OK);
+		String token=userService.validateUser(userInfo);
+		tokenResponse = new ResponseToken();
+		if (token!=null) {
+			tokenResponse.setStatus("done");
+			tokenResponse.setToken(token);
+			return new ResponseEntity<ResponseToken>(tokenResponse, HttpStatus.OK);
 		}
 
 		else {
-			response.setStatus("not valid");
-			return new ResponseEntity<Response>(response, HttpStatus.NOT_FOUND);
+			tokenResponse.setStatus("not valid");
+			tokenResponse.setToken("null");
+			return new ResponseEntity<ResponseToken>(tokenResponse, HttpStatus.NOT_FOUND);
 		}
 
 	}
@@ -93,6 +99,14 @@ public class UserController {
 		return new ResponseEntity<List<User>>(userList,HttpStatus.OK);
 	}
 	
+	@GetMapping("/user/{token:.+}")
+	public ResponseEntity<User> getUser(@PathVariable String token)
+	{
+		System.out.println(token);
+		User user=userService.getUser(token);
+		return new ResponseEntity<User>(user,HttpStatus.OK);
+	}
+	 
 	@PutMapping("/user/{id}")
 	public ResponseEntity<Response> updateUser(@PathVariable int id,@RequestBody User user)
 	{

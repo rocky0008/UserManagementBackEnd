@@ -15,8 +15,10 @@ public interface IUserService {
 
 	boolean deleteUser(int id);
 
-	boolean validateUser(UserDto userInfo);
+	String validateUser(UserDto userInfo);
 
 	boolean sendUserNameByEmail(String email);
+
+	User getUser(String token);
 
 }
