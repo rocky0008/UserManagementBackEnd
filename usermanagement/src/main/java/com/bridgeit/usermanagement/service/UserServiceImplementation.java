@@ -89,6 +89,10 @@ public class UserServiceImplementation implements IUserService {
 		{
 			try {
 				String token = UserToken.generateToken(user.getId());
+				Date date = new Date();
+				user.setLastLoginStamp(date);
+				System.out.println("user " +user.getLastLoginStamp());
+				userDao.update(user);
 				return token;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

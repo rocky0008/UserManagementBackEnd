@@ -75,6 +75,8 @@ public class User implements Serializable {
 	private Date createdStamp;
 
 	@Column(name = "lastLoginStamp")
+	@DateTimeFormat(style = "dd-MM-yyyy hh:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	private Date lastLoginStamp;
 
 	@Column(name = "lastUpdateStamp")
