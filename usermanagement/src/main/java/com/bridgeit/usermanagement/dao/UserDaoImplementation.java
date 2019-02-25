@@ -69,6 +69,7 @@ public class UserDaoImplementation implements IUserDao {
 	public User getUserByEmail(String email) {
 		if (factory != null) {
 			System.out.println(factory);
+			System.out.println(email);
 			Query query = factory.getCurrentSession().createQuery("from User where email = :email");
 			query.setParameter("email", email);
 			System.out.println("hihih");

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.Response;
 import com.bridgeit.usermanagement.model.ResponseToken;
@@ -107,10 +108,10 @@ public class UserController {
 		return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
 	 
-	@PutMapping("/user/{id}")
-	public ResponseEntity<Response> updateUser(@PathVariable int id,@RequestBody User user)
+	@PutMapping("/user/{token:.+}")
+	public ResponseEntity<Response> updateUser(@PathVariable String token,@RequestBody User user)
 	{
-		userService.updateUser(id,user);
+		userService.updateUser(token,user);
 		response = new Response();
 		response.setStatus("done");
 		System.out.println("controller");
@@ -125,5 +126,15 @@ public class UserController {
 		response=new Response();
 		response.setStatus("done");
 		return new ResponseEntity<Response>(response,HttpStatus.OK);
+	}
+	
+	@GetMapping("/userCount/{token:.+}")
+	public ResponseEntity<CountUser> countUsers(@PathVariable String token)
+	{
+		System.out.println("count");
+		CountUser countUser=new CountUser(); 
+		countUser=userService.getCount(token);
+		System.out.println(countUser);
+		return new ResponseEntity<CountUser>(countUser,HttpStatus.OK);
 	}
 }

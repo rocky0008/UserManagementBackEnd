@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgeit.usermanagement.dao.IUserDao;
+import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.User;
 import com.bridgeit.usermanagement.utility.EncryptAndDecrypt;
@@ -51,7 +52,7 @@ public class UserServiceImplementation implements IUserService {
 	}
 
 	@Override
-	public boolean updateUser(int id, User updateUser) {
+	public boolean updateUser(String token, User updateUser) {
 //		User user=new User();
 //		user=userDao.getuser(id);
 //		
@@ -69,10 +70,18 @@ public class UserServiceImplementation implements IUserService {
 //			return true;
 //		}
 //		
-		Date date = new Date();
-		updateUser.setLastUpdateStamp(date);
-		userDao.update(updateUser);
-		return false;
+		try {
+			int id=UserToken.tokenVerify(token);
+			updateUser.setId(id);
+			Date date = new Date();
+			updateUser.setLastUpdateStamp(date);
+			userDao.update(updateUser);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -85,7 +94,10 @@ public class UserServiceImplementation implements IUserService {
 	@Override
 	public String validateUser(UserDto userInfo) {
 		User user = userDao.getUserByEmail(userInfo.getEmail());
-		if (user != null && user.getEmail().equals(userInfo.getEmail()) && user.getPassword().equals(userInfo.getPassword()) && user.getRole().equals("admin")) 
+		System.out.println("user "+user);
+
+		System.out.println("user "+userInfo);
+		if (user != null && user.getEmail().equals(userInfo.getEmail()) && user.getPassword().equals(userInfo.getPassword()) && user.getRole().equals("Admin")) 
 		{
 			try {
 				String token = UserToken.generateToken(user.getId());
@@ -93,6 +105,8 @@ public class UserServiceImplementation implements IUserService {
 				user.setLastLoginStamp(date);
 				System.out.println("user " +user.getLastLoginStamp());
 				userDao.update(user);
+				System.out.println(user);
+				
 				return token;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -125,6 +139,40 @@ public class UserServiceImplementation implements IUserService {
 			int id=UserToken.tokenVerify(token);
 			User user=userDao.getuser(id);
 			return user;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public CountUser getCount(String token) {
+		
+		try {
+			int active=0,inActive=0;
+			
+			int id=UserToken.tokenVerify(token);
+			User user=userDao.getuser(id);
+			if(user.getRole().equals("Admin"))
+			{
+				List<User> userList=userDao.getAllUser();
+				for (int i = 0; i < userList.size(); i++) 
+				{
+					if(userList.get(i).isStatus()==true)
+					{
+						active++;
+					}
+					else
+					{
+						inActive++;
+					}
+				}
+				CountUser countUser=new CountUser();
+				countUser.setActive(active);
+				countUser.setInActive(inActive);
+				return countUser;
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

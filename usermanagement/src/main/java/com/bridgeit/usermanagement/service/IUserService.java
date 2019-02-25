@@ -2,6 +2,7 @@ package com.bridgeit.usermanagement.service;
 
 import java.util.List;
 
+import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.User;
 
@@ -11,7 +12,7 @@ public interface IUserService {
 
 	List<User> getAllUser();
 
-	boolean updateUser(int id,User user);
+	boolean updateUser(String token,User user);
 
 	boolean deleteUser(int id);
 
@@ -20,5 +21,7 @@ public interface IUserService {
 	boolean sendUserNameByEmail(String email);
 
 	User getUser(String token);
+
+	CountUser getCount(String token);
 
 }
