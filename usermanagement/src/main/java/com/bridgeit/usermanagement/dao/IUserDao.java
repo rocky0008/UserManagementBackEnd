@@ -3,6 +3,7 @@ package com.bridgeit.usermanagement.dao;
 import java.util.List;
 
 import com.bridgeit.usermanagement.model.User;
+import com.bridgeit.usermanagement.model.UserLogin;
 
 public interface IUserDao {
 
@@ -17,5 +18,9 @@ public interface IUserDao {
 	boolean delete(User user);
 
 	User getUserByEmail(String email);
+
+	boolean save(UserLogin login);
+
+	List<UserLogin> getAllUserLogin();
 
 }

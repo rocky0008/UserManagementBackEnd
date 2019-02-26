@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class User implements Serializable {
 	@Id
 	@GeneratedValue
+	@PrimaryKeyJoinColumn
 	@Column(name = "id")
 	private int id;
 
@@ -62,31 +64,39 @@ public class User implements Serializable {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name="confirmpassword")	
-	private String confirmPassword;	
 
 	@Column(name="status")
 	private boolean status;
 
 	@Column(name = "createdStamp")
-//	@Temporal(TemporalType.DATE)
-//	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
+	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
 	private Date createdStamp;
 
 	@Column(name = "lastLoginStamp")
-	@DateTimeFormat(style = "dd-MM-yyyy hh:mm:ss")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+	@DateTimeFormat(style = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date lastLoginStamp;
 
 	@Column(name = "lastUpdateStamp")
-//	@Temporal(TemporalType.DATE)
-//	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
+	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
 	private Date lastUpdateStamp;
 	
 	@Column(name="role")
 	private String role;
+	
+	@Column(name= "profilePath")
+	private String profilePath;
+	
+	
+	public String getProfilePath() {
+		return profilePath;
+	}
+
+	public void setProfilePath(String profilePath) {
+		this.profilePath = profilePath;
+	}
 
 	public int getId() {
 		return id;
@@ -224,13 +234,6 @@ public class User implements Serializable {
 		this.phoneExt = phoneExt;
 	}
 
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
 
 	public String getRole() {
 		return role;
@@ -245,11 +248,12 @@ public class User implements Serializable {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName
 				+ ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", country=" + country + ", phoneNumber="
 				+ phoneNumber + ", phoneExt=" + phoneExt + ", email=" + email + ", address=" + address + ", userName="
-				+ userName + ", password=" + password + ", confirmPassword=" + confirmPassword + ", status=" + status
-				+ ", createdStamp=" + createdStamp + ", lastLoginStamp=" + lastLoginStamp + ", lastUpdateStamp="
-				+ lastUpdateStamp + ", role=" + role + "]";
+				+ userName + ", password=" + password + ", status=" + status + ", createdStamp=" + createdStamp
+				+ ", lastLoginStamp=" + lastLoginStamp + ", lastUpdateStamp=" + lastUpdateStamp + ", role=" + role
+				+ ", profilePath=" + profilePath + "]";
 	}
 
+	
 	
 
 }

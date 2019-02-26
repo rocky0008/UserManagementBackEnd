@@ -5,6 +5,7 @@ import java.util.List;
 import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.User;
+import com.bridgeit.usermanagement.model.UserLogin;
 
 public interface IUserService {
 
@@ -23,5 +24,7 @@ public interface IUserService {
 	User getUser(String token);
 
 	CountUser getCount(String token);
+
+	List<UserLogin> getUserLogin(String token);
 
 }

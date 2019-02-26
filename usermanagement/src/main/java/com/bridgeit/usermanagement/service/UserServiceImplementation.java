@@ -10,6 +10,7 @@ import com.bridgeit.usermanagement.dao.IUserDao;
 import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.User;
+import com.bridgeit.usermanagement.model.UserLogin;
 import com.bridgeit.usermanagement.utility.EncryptAndDecrypt;
 import com.bridgeit.usermanagement.utility.SendEmail;
 import com.bridgeit.usermanagement.utility.UserToken;
@@ -104,6 +105,10 @@ public class UserServiceImplementation implements IUserService {
 				Date date = new Date();
 				user.setLastLoginStamp(date);
 				System.out.println("user " +user.getLastLoginStamp());
+				UserLogin login=new UserLogin();
+				login.setLastLoginStamp(date);
+				login.setUserId(user.getId());
+				userDao.save(login);
 				userDao.update(user);
 				System.out.println(user);
 				
@@ -177,6 +182,21 @@ public class UserServiceImplementation implements IUserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public List<UserLogin> getUserLogin(String token) {
+		
+		try {
+			int id=UserToken.tokenVerify(token);
+			List<UserLogin> userLogin=userDao.getAllUserLogin();
+			return userLogin;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 }

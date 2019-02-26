@@ -23,6 +23,7 @@ import com.bridgeit.usermanagement.dto.UserDto;
 import com.bridgeit.usermanagement.model.Response;
 import com.bridgeit.usermanagement.model.ResponseToken;
 import com.bridgeit.usermanagement.model.User;
+import com.bridgeit.usermanagement.model.UserLogin;
 import com.bridgeit.usermanagement.service.IUserService;
 
 @RestController
@@ -136,5 +137,14 @@ public class UserController {
 		countUser=userService.getCount(token);
 		System.out.println(countUser);
 		return new ResponseEntity<CountUser>(countUser,HttpStatus.OK);
+	}
+	
+	@GetMapping("/userLogin/{token:.+}")
+	public ResponseEntity<List<UserLogin>> getLoginTime(@PathVariable String token)
+	{
+		System.out.println("usrLogin");
+		List<UserLogin> userLoginTime = userService.getUserLogin(token);
+		return new ResponseEntity<List<UserLogin>>(userLoginTime,HttpStatus.OK);
+		 
 	}
 }

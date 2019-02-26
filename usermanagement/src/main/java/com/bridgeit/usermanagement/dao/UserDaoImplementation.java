@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgeit.usermanagement.model.User;
+import com.bridgeit.usermanagement.model.UserLogin;
 
 public class UserDaoImplementation implements IUserDao {
 
@@ -78,6 +79,28 @@ public class UserDaoImplementation implements IUserDao {
 				return null;
 			else
 				return (User) query.list().get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean save(UserLogin login) {
+		if(factory!=null)
+		{
+			factory.getCurrentSession().save(login);
+			System.out.println("added successfully");
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<UserLogin> getAllUserLogin() {
+		if(factory != null)
+		{
+			Query query = factory.getCurrentSession().createQuery("from UserLogin");
+			List<UserLogin> userList = query.list();
+			return userList;
 		}
 		return null;
 	}
