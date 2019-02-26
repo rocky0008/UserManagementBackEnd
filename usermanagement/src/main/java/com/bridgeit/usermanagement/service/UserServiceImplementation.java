@@ -1,5 +1,6 @@
 package com.bridgeit.usermanagement.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -187,16 +188,22 @@ public class UserServiceImplementation implements IUserService {
 
 	@Override
 	public List<UserLogin> getUserLogin(String token) {
-		
+		List<UserLogin> userLogin=new ArrayList<>();
+	
 		try {
 			int id=UserToken.tokenVerify(token);
-			List<UserLogin> userLogin=userDao.getAllUserLogin();
-			return userLogin;
+			List<UserLogin> userLoginList=userDao.getAllUserLogin();
+			for (int i = 0; i < userLoginList.size(); i++) 
+			{
+				if(userLoginList.get(i).getId()==id)
+					userLogin.add(userLoginList.get(i));
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return null;
-	}
+		return userLogin;
+		}
 }
