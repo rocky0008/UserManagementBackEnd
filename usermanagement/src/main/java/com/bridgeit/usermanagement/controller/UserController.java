@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
+import com.bridgeit.usermanagement.dto.UserListDto;
 import com.bridgeit.usermanagement.model.Response;
 import com.bridgeit.usermanagement.model.ResponseToken;
 import com.bridgeit.usermanagement.model.User;
@@ -91,14 +92,14 @@ public class UserController {
 		return new ResponseEntity<Response>(response,HttpStatus.OK);
 	}	
 	
-	@GetMapping("/user")
-	public ResponseEntity<List<User>> getAllUser()
+	@GetMapping("/userList")
+	public ResponseEntity<List<UserListDto>> getAllUser()
 	{
-		List<User> userList=userService.getAllUser();
+		List<UserListDto> userList=userService.getAllUser();
 		response = new Response();
 		response.setStatus("done");
 		System.out.println("hihihi");
-		return new ResponseEntity<List<User>>(userList,HttpStatus.OK);
+		return new ResponseEntity<List<UserListDto>>(userList,HttpStatus.OK);
 	}
 	
 	@GetMapping("/user/{token:.+}")

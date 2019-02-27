@@ -19,6 +19,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "User")
 public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	@PrimaryKeyJoinColumn
@@ -70,7 +75,7 @@ public class User implements Serializable {
 
 	@Column(name = "createdStamp")
 	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy  HH:mm:ss")
 	private Date createdStamp;
 
 	@Column(name = "lastLoginStamp")
@@ -80,7 +85,7 @@ public class User implements Serializable {
 
 	@Column(name = "lastUpdateStamp")
 	@DateTimeFormat(style = "dd/mm/yyyy  HH:mm:ss")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy  HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy  HH:mm:ss")
 	private Date lastUpdateStamp;
 	
 	@Column(name="role")

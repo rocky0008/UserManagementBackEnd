@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgeit.usermanagement.dao.IUserDao;
 import com.bridgeit.usermanagement.dto.CountUser;
 import com.bridgeit.usermanagement.dto.UserDto;
+import com.bridgeit.usermanagement.dto.UserListDto;
 import com.bridgeit.usermanagement.model.User;
 import com.bridgeit.usermanagement.model.UserLogin;
 import com.bridgeit.usermanagement.utility.EncryptAndDecrypt;
@@ -47,9 +49,15 @@ public class UserServiceImplementation implements IUserService {
 	}
 
 	@Override
-	public List<User> getAllUser() {
+	public List<UserListDto> getAllUser() {
 		List<User> userList = userDao.getAllUser();
-		return userList;
+		ModelMapper mapper=new ModelMapper();
+		ArrayList<UserListDto> userListDto=new ArrayList<>();
+		for (int i = 0; i < userList.size(); i++) 
+		{
+			userListDto.add(mapper.map(userList.get(i),UserListDto.class ));
+		}
+		return userListDto;
 
 	}
 
@@ -195,7 +203,7 @@ public class UserServiceImplementation implements IUserService {
 			List<UserLogin> userLoginList=userDao.getAllUserLogin();
 			for (int i = 0; i < userLoginList.size(); i++) 
 			{
-				if(userLoginList.get(i).getId()==id)
+				if(userLoginList.get(i).getUserId()==id)
 					userLogin.add(userLoginList.get(i));
 			}
 			

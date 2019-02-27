@@ -30,6 +30,7 @@ public class UserDaoImplementation implements IUserDao {
 	public List<User> getAllUser() {
 		if (factory != null) {
 			Query query = factory.getCurrentSession().createQuery("from User");
+			@SuppressWarnings("unchecked")
 			List<User> userList = query.list();
 			return userList;
 		}
@@ -94,6 +95,7 @@ public class UserDaoImplementation implements IUserDao {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserLogin> getAllUserLogin() {
 		if(factory != null)
